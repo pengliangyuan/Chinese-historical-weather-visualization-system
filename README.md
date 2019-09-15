@@ -3,15 +3,15 @@
 -
 
 
-                项目的详细过程可以看https://www.cnblogs.com/plyonfly/p/11493115.html
-
-
-                我的个人云服务器已经部署了该项目http://pengliangyuan.club/history_weath/
+               
+项目的详细过程可以看[https://www.cnblogs.com/plyonfly/p/11493115.html](https://www.cnblogs.com/plyonfly/p/11493115.html)
                 
+我的个人云服务器已经部署了该项目[http://pengliangyuan.club/history_weath](http://pengliangyuan.club/history_weath)
 
-                有什么问题欢迎随时指出
+有什么问题欢迎随时指出
 
-                项目运行方式：
+项目运行方式：
+=
 
 1.下载代码
 -
@@ -22,29 +22,22 @@
 2.创建python虚拟环境
 -
                 pip install virtualenv
-
                 pip install virtualenvwrapper
 
                 #创建目录用来存放虚拟环境
-
                 mkdir $HOME/.virtualenvs
 
                 #在~/.bashrc中添加行
-
                 export WORKON_HOME=$HOME/.virtualenvs
-
                 export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/python3/bin/virtualenv
-
                 source /usr/local/python3/bin/virtualenvwrapper.sh
 
                 #进入虚拟环境
-
                 workon django_env_py3
 
 
-
-                3.安装依赖
-                -
+3.安装依赖
+-
                 pip install -r requirements.txt　
 
 
@@ -84,9 +77,7 @@ DATABASES = {
 -
 
                 cd Chinese-historical-weather-visualization-system/webapps
-
                 python manage.py makemigrations
-
                 python manage.py migrate
 
                 关于django使用mysql报错的问题可以看https://www.cnblogs.com/plyonfly/p/11493115.html#_label17
@@ -96,20 +87,16 @@ DATABASES = {
 -
 
                 cd  Chinese-historical-weather-visualization-system/spider
-
                 scrapy crawl weath
-
                 #全国3100多个城市，数据优点多，大概需要8-9个小时
-
+                
                 #数据修复, 由于网站数据有缺失，比如某个月少几天，某年少几个月，或某年份根本没数据，数据修复是从另一个网站抓取数据
-
                 scrapy crawl recovery
 
 7.运行django
 -
 
                 cd Chinese-historical-weather-visualization-system/webapps
-
                 python manage.py runserver
 
                 在浏览器访问localhost:8000
