@@ -11,13 +11,13 @@
 项目运行方式：
 
 1.下载代码
-
+----------
 git clone https://github.com/pengliangyuan/Chinese-historical-weather-visualization-system.git
 
 
 
 2.创建python虚拟环境
-
+--------------------
 pip install virtualenv
 
 pip install virtualenvwrapper
@@ -41,13 +41,13 @@ workon django_env_py3
 
 
 3.安装依赖
-
+----------
 pip install -r requirements.txt　
 
 
 
 4.修改数据库连接（有两处需要修改）
-
+------------------------------
 Chinese-historical-weather-visualization-system/spider/lishitianqi/pipelines.p
 
 =====================================================
@@ -85,6 +85,7 @@ Chinese-historical-weather-visualization-system/webapps/webapps/settings.py
 
 
 5.创建数据库和数据表
+-------------
 
 cd Chinese-historical-weather-visualization-system/webapps
 
@@ -96,6 +97,7 @@ python manage.py migrate
 
 
 6.爬取数据
+------------
 
 cd  Chinese-historical-weather-visualization-system/spider
 
@@ -108,6 +110,7 @@ scrapy crawl weath
 scrapy crawl recovery
 
 7.运行django
+------------
 
 cd Chinese-historical-weather-visualization-system/webapps
 
