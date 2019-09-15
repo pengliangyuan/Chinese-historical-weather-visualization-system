@@ -200,12 +200,13 @@ $("#page1_send").click(function(){
 			for(var j = 0; j < years.length; j++)
 			{
 
-				var city = citys[i];
-				var year = years[j];
-				var text = city + year + "年各种天气所占比例"
-
-				//添加
-				var insert = $(".page1_add_year_weath").first().clone().text(text)
+		
+				//js闭包特性，解决值传递的问题
+				(function _(){
+					var city = citys[i];
+					var year = years[j];
+					var text = city + year + "年各种天气所占比例"
+					var insert = $(".page1_add_year_weath").first().clone().text(text)
 					insert.bind("click", function(){
 						$("#page1_chart3").show()
 						$("#page1_year_weath").text($(this).text())
@@ -233,7 +234,8 @@ $("#page1_send").click(function(){
 						});
 					})
 					$("#page1_year_weath_label").before(insert)
-	
+				})();
+		
 			}
 		}
 
@@ -287,40 +289,41 @@ $(".page1_month").click(function(){
 		{
 			for(var j = 0; j < years.length; j++)
 			{
+				//js闭包特性，解决值传递的问题
+				(function _(){
+					var city = citys[i];
+					var year = years[j];
+					var text = city + year + "年" + month + "月各种天气所占比例"
 
-				var city = citys[i];
-				var year = years[j];
-				var text = city + year + "年" + month + "月各种天气所占比例"
+					var insert = $(".page1_add_month_weath").first().clone().text(text)
+						insert.bind("click", function(){
+							$("#page1_chart4").show()
+							$("#page1_month_weath").text($(this).text())
+							$.ajax({
+								type:"POST",
+								url:"/history_weath/weath_month_ratio",
+								data:JSON.stringify({city:city, year:year, month:month}),
+								success:function(result){
 
-				//添加
-				var insert = $(".page1_add_month_weath").first().clone().text(text)
-					insert.bind("click", function(){
-						$("#page1_chart4").show()
-						$("#page1_month_weath").text($(this).text())
-						$.ajax({
-							type:"POST",
-							url:"/history_weath/weath_month_ratio",
-							data:JSON.stringify({city:city, year:year, month:month}),
-							success:function(result){
+									//删除数据
+									var len = page1_chart4.series.length;
+									for(var i = len - 1; i >= 0; i--){
+										page1_chart4.series[i].remove();
+									}
+							
 
-								//删除数据
-								var len = page1_chart4.series.length;
-								for(var i = len - 1; i >= 0; i--){
-									page1_chart4.series[i].remove();
+									//新增数据
+									var data = JSON.parse(result)
+									page1_chart4.addSeries(data);
+									
+
+									var title = city + "-" + year +"年" + month + "月" + "各种天气所占比例饼图";
+									page1_chart4.setTitle({text:title,useHTML:true})
 								}
-						
-
-								//新增数据
-								var data = JSON.parse(result)
-								page1_chart4.addSeries(data);
-								
-
-								var title = city + "-" + year +"年" + month + "月" + "各种天气所占比例饼图";
-								page1_chart4.setTitle({text:title,useHTML:true})
-							}
-						});
+							});
 					})
 					$("#page1_month_weath_label").before(insert)
+				})();
 	
 			}
 		}

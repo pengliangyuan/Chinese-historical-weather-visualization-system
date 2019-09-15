@@ -13,13 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
+from django.conf import settings
+from django.views import static
 from django.contrib import admin
 from django.urls import path,include
 from history_weath.views import index 
 
 
 urlpatterns = [
-    path('', index),											#将DomainName重定向到DomainName/history_weath，见history_weath/views.py中的index函数
-	path('history_weath/', include('history_weath.urls')),		#引用history_weath/urls.py，访问url = 引用url + 被引用url 
+    #将DomainName重定向到DomainName/history_weath，见history_weath/views.py中的index函数
+    path('', index),											
+    #引用history_weath/urls.py，访问url = 引用url + 被引用url 
+    path('history_weath/', include('history_weath.urls')),		
+
+    # 增加以下一行，以识别静态资源
+    url(r'^static/(?P<path>.*)$', static.serve,
+        {'document_root': settings.STATIC_ROOT}, name='static'),
+
     path('admin/', admin.site.urls),
 ]
