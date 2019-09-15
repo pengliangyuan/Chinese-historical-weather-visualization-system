@@ -1,0 +1,193 @@
+
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+      <script src="{% static 'history_weath/jquery.min.js' %}"></script>
+      <link href="{% static 'history_weath/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'history_weath/home.css' %}" rel="stylesheet">
+
+  </head>
+  <body>
+  <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'history_weath:home' %}">全国各城市天气可视化系统</a>
+  </nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item ">
+            <a class="active nav-link" id="page1_index" href="#">
+              <span data-feather="bar-chart-2"></span>
+              数据可视化
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#" id="page2_index">
+              <span data-feather="layers"></span>
+              数据分析
+            </a>
+          </li>
+        </ul>
+
+     
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="padding-top:70px">
+
+      <div id="page1">
+        
+                  <div clsss="container">
+                  <div class="row">
+                  <div class="col-md-3">
+
+                   <div class="input-group mb-3">
+                    <div class="input-group-prepend" id="page1_iter">
+                      <button type="button" class="btn btn-outline-secondary" id="page2_city">城市</button>
+                      <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <div class="dropdown-menu">
+                        {% for city in context.hot_citys %}
+                              <button class="dropdown-item page1_add_city">{{ city.city }}</button>
+                          {% endfor %}
+                          {% for k,v in context.citys.items %}
+                            <div role="separator" class="dropdown-divider"></div><p class="text-center">{{ k }}</p>
+                            {% for city in v %}
+                              <button class="dropdown-item page1_add_city">{{ city }}</button>
+                            {% endfor %}
+                          {% endfor %}
+                      </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+                   
+                </div>
+
+
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend" id="page1_iter">
+                        <button type="button" class="btn btn-outline-secondary" id="page1_year">年份</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                          {% for year in context.years %}
+                            <button class="dropdown-item page1_add_year">{{ year }}</button>
+                          {% endfor %}
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                      
+
+                  <div class="col-md-1 ">
+                        <div class="card " style='height: 100%; background-color: #e5e5e5'>
+                              <span class="badge badge-info page1_city_list" ></span>
+                              <div id="page1_city_label"></div>
+                        </div>
+
+                  </div>
+                  <div class="col-md-1">
+                        <div class="card " style='height: 100%; background-color: #e5e5e5'>
+                              <span class="badge badge-success page1_year_list" ></span>
+                              <div id="page1_year_label"></div>
+                        </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+                  <button type="button" class="btn btn-secondary btn-lg btn-block" style="margin-top: 10px" id="page1_send">开始</button>
+                 
+
+
+  
+                <div id="page1_year_content" style="display: none">
+
+                  <div id="page1_chart1" style="min-width:400px;height:400px;width: 100%"></div>
+
+
+                   <div class="input-group mb-3">
+                      <div class="input-group-prepend" id="page1_iter">
+                        <button type="button" class="btn btn-outline-secondary" id="page1_year_weath">气候</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item page1_add_year_weath">关闭</button>
+                            <div id="page1_year_weath_label"></div>
+                        </div>
+                      </div>
+                  </div>
+                  
+                    <div id="page1_chart3" style="min-width:400px;height:400px;width: 100%; display: none;"></div>
+               
+
+
+                    <div class="btn-group mr-2" role="group" aria-label="First group" style="width: 100%">
+                        <button type="button" class="btn btn-secondary page1_month" month=1>一月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=2>二月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=3>三月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=4>四月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=5>五月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=6>六月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=7>七月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=8>八月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=9>九月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=10>十月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=11>十一月</button>
+                        <button type="button" class="btn btn-secondary page1_month" month=12>十二月</button>
+                    </div>
+
+                  <div id="page1_month_content" style="display: none">
+                    <div id="page1_chart2" style="min-width:400px;height:400px;width: 100%"></div>
+
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend" id="page1_iter">
+                        <button type="button" class="btn btn-outline-secondary" id="page1_month_weath">气候</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item page1_add_month_weath">关闭</button>
+                            <div id="page1_month_weath_label"></div>
+                        </div>
+                      </div>
+                  </div>
+                  
+                    <div id="page1_chart4" style="min-width:400px;height:400px;width: 100%; display: none;"></div>
+                  </div>
+                </div>
+
+
+        </div>
+
+
+
+        <div id="page2" style="display: none">
+              
+        </div>
+
+      
+    </main>
+  </div>
+</div>
+        <script src="{% static 'history_weath/highcharts.js' %}"></script>
+        <script src="{% static 'history_weath/exporting.js' %}"></script>
+        <script src="{% static 'history_weath/oldie.js' %}"></script>
+        <script src="{% static 'history_weath/highcharts-zh_CN.js' %}"></script>
+
+       
+        <script src="{% static 'history_weath/popper.min.js' %}"></script>
+        <script src="{% static 'history_weath/bootstrap.min.js' %}" ></script>
+        <script src="{% static 'history_weath/feather.min.js' %}"></script>
+        <script src="{% static 'history_weath/home.js' %}"></script>
+       
+</body>
+</html>
