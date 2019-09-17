@@ -176,6 +176,80 @@ $(".page1_add_month_weath").first().click(function(){
 });
 
 
+/* start: 输入下拉功能添加 */
+/* 失去焦点导致无法选中 -- remove
+$("#page1_input_city").on('focus',function(){
+	$("#page1_input_dropdown_menu").addClass("show")
+});
+
+$("#page1_input_city").on('blur',function(){
+	$("#page1_input_dropdown_menu").removeClass("show")
+});
+*/
+
+$("#page1_input_city").on('input',function(){
+	var city = $(this).val()
+	var dropdown_menu = $("#page1_input_dropdown_menu")
+	
+	if(city != ""){
+		dropdown_menu.addClass("show")
+		$.ajax({
+			type:"POST",
+			url:"/history_weath/like_city",
+			data:JSON.stringify({city:city}),
+			success:function(result){
+			
+				//删除
+				dropdown_menu.empty()
+
+				//添加
+				var citys = JSON.parse(result)
+				if(citys.length != 0)
+				{
+					for(var i = 0;i < citys.length; i++){
+						var dropdown_item = $('<button class="dropdown-item page1_add_year"></button>');
+						dropdown_item.bind("click", function(){
+							if($(".page1_city_list").text().indexOf($(this).text()) == -1){
+								var insert = $(".page1_city_list").first().clone().text($(this).text())
+								insert.bind("click", function(){
+									$(this).remove()
+								})
+								$("#page1_city_label").before(insert)
+								
+								//删除
+								dropdown_menu.empty()
+
+								//失去焦点导致无法选中  -- add
+								dropdown_menu.removeClass("show")
+							}
+
+						});
+						dropdown_item.text(citys[i])
+						dropdown_menu.append(dropdown_item)
+					}
+				}
+				else
+				{
+					var dropdown_item = $('<button class="dropdown-item page1_add_year"></button>');
+					dropdown_item.text("没有匹配城市")
+					dropdown_menu.append(dropdown_item)
+				
+				}
+			}
+		});
+	}
+	else{
+		//删除
+		dropdown_menu.empty()
+
+		//失去焦点导致无法选中  -- add
+		dropdown_menu.removeClass("show")
+	}
+	
+});
+/* end: 输入下拉功能添加 */
+
+
 $("#page1_send").click(function(){
 
 	var city_list = $(".page1_city_list")

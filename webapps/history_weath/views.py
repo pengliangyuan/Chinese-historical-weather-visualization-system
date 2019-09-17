@@ -158,3 +158,16 @@ def weath_month_ratio(request):
 		result = {'name':'%s(%s年%s月)'%(city,year,month), 'data':data}
 		print("RESPONSE",result)
 		return HttpResponse(json.dumps(result))
+
+#url: DomainName/history_weath/like_city, 用于ajax（POST）请求匹配city前缀名的所有城市
+def like_city(request):
+	post_data = json.loads(request.body)
+	city = post_data.get('city',"")
+	print("REQUEST",city)
+	if city == "":
+		raise Http404("Question does not exist")
+	else:
+		citys = Citys.objects.filter(city__startswith=city)
+		result = [city.city for city in citys]
+		print("RESPONSE",result)
+		return HttpResponse(json.dumps(result))
