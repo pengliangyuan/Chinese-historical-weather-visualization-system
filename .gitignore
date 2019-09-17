@@ -1,0 +1,7 @@
+
+
+
+*.pyc
+*.log
+*.pid
+webapps/static/*
