@@ -22,8 +22,8 @@ class LishitianqiPipeline(object):
 			host='127.0.0.1',
 			port=8809,
 			db='lishitianqi',
-			user='root',
-			passwd='p1994l08y04',
+			user='xiaoming',
+			passwd='123',
 			charset='utf8',
 			use_unicode=True)
 

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l0^7i7@(1aki9j=05!)+lzh2rdqpx@3k&&bc6$jjr%iw6*8ti#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = False 
 
 ALLOWED_HOSTS = ["*"]
 
@@ -78,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'lishitianqi',   #数据库的名字
-        'USER': 'root',
-        'PASSWORD':'p1994l08y04',
+        'USER': 'xiaoming',
+        'PASSWORD':'123',
         'HOST':'127.0.0.1',
         'PORT':'8809',
     }
@@ -123,7 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
+#解决工程移动目录，不影响部署的问题
+STATIC_ROOT = '/var/www/static'
 #STATICFILE_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.

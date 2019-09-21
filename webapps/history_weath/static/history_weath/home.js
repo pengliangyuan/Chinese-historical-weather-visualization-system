@@ -262,12 +262,32 @@ $("#page1_send").click(function(){
 		years[i-1] = p.text()
 	if(citys.length > 0 && years.length > 0)
 	{
+		/* start: 添加年份选择高亮功能 - 高亮*/
+		$(this).addClass("active")	
+		/* end: 添加年份选择高亮功能*/
+		
+		/* start: 输入错误提示提示 - 隐藏*/
+		$("#page1_input_danger").text("").hide()
+		
+		/* end: 输入错误提示 - 隐藏*/
 
-		//删除
+		//删除年份天气下拉选项
 		for(var z = $(".page1_add_year_weath").first().next(); z.text() != ""; z = $(".page1_add_year_weath").first().next())
 		{
 			z.remove()
 		}
+
+		/* start: 修改城市和年份，隐藏饼图 */
+		$("#page1_chart3").hide()
+		$("#page1_year_weath").text("气候")
+		$("#page1_chart4").hide()
+		$("#page1_month_weath").text("气候")
+		/* end: 修改城市和年份，隐藏饼图 */
+		
+		/* start: 曲线图 */
+		$("#page1_month_content").hide()
+		$(".page1_month.active").removeClass("active")
+		/* end: 曲线图 */
 
 		for(var i = 0; i < citys.length; i++)
 		{
@@ -337,6 +357,36 @@ $("#page1_send").click(function(){
 			}
 		});
 	}
+	else{
+		/* start: 添加年份选择高亮功能 - 消除*/
+		$(this).removeClass("active")	
+		/* end: 添加年份选择高亮功能*/
+
+		/* start: 输入错误提示提示 - 显示*/
+		$("#page1_input_danger").text("请输入城市和年份（城市和年份可以多次输入，比如北京，上海，2011，2012。点击选中的城市和年份可以取消选中）").show()
+		
+		/* end: 输入错误提示 - 显示*/
+		
+		//删除年份天气下拉选项
+		for(var z = $(".page1_add_year_weath").first().next(); z.text() != ""; z = $(".page1_add_year_weath").first().next())
+		{
+			z.remove()
+		}
+
+		/* start: 修改城市和年份，隐藏饼图 */
+		$("#page1_chart3").hide()
+		$("#page1_year_weath").text("气候")
+		$("#page1_chart4").hide()
+		$("#page1_month_weath").text("气候")
+		/* end: 修改城市和年份，隐藏饼图 */
+
+		/* start: 曲线图 */
+		$("#page1_year_content").hide()
+		$("#page1_month_content").hide()
+		$(".page1_month.active").removeClass("active")
+		/* end: 曲线图 */
+
+	}
 });
 
 
@@ -353,11 +403,22 @@ $(".page1_month").click(function(){
 	var month_name = $(this).text()
 	if(citys.length > 0 && years.length > 0)
 	{
-		//删除
+
+		/* start: 添加月份选择高亮功能*/
+		$(".page1_month.active").removeClass("active")
+		$(this).addClass("active")	
+		/* end: 添加月份选择高亮功能*/
+
+		//删除月份天气下拉选项
 		for(var z = $(".page1_add_month_weath").first().next(); z.text() != "";z = $(".page1_add_month_weath").first().next())
 		{
 			z.remove()
 		}
+		
+		/* start: 修改月份，隐藏饼图 */
+		$("#page1_chart4").hide()
+		$("#page1_month_weath").text("气候")
+		/* end: 修改月份，隐藏饼图 */
 		
 		for(var i = 0; i < citys.length; i++)
 		{
